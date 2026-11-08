@@ -14,10 +14,9 @@ info "${KERNEL_SOURCE} @ ${KERNEL_SOURCE_BRANCH}"
 ref_exists "$KERNEL_SOURCE" "$KERNEL_SOURCE_BRANCH" \
 	|| die "branch/tag '${KERNEL_SOURCE_BRANCH}' does not exist in ${KERNEL_SOURCE}"
 
-rm -rf "$KERNEL_DIR"
-retry 3 git clone -q --recursive --depth=1 \
-	-b "$KERNEL_SOURCE_BRANCH" "$KERNEL_SOURCE" "$KERNEL_DIR" \
-	|| die "failed to clone ${KERNEL_SOURCE}"
+# Xoa bo KSU cu bi trung trong cay nguon SM8250
+sed -i '/config KSU/,/Enable kernel-level root privileges/d' "${KERNEL_DIR}/arch/arm64/Kconfig" 2>/dev/null || true
+rm -rf "${KERNEL_DIR}/KernelSU"
 
 # KernelSU forks compute their version from the commit count, and several
 # read it straight out of the enclosing git repo. A depth-1 clone reports 1
