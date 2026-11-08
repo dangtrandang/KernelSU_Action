@@ -23,6 +23,10 @@ retry 3 git clone -q --recursive --depth=1 \
 sed -i '/config KSU/,/Enable kernel-level root privileges/d' "${KERNEL_DIR}/arch/arm64/Kconfig" 2>/dev/null || true
 rm -rf "${KERNEL_DIR}/KernelSU"
 
+# Xoa co Machine Learning (MLGO) gay crash Clang tren Makefile
+sed -i '/regalloc-enable-advisor/d' "${KERNEL_DIR}/Makefile" 2>/dev/null || true
+sed -i '/enable-ml-inliner/d' "${KERNEL_DIR}/Makefile" 2>/dev/null || true
+
 # KernelSU forks compute their version from the commit count, and several
 # read it straight out of the enclosing git repo. A depth-1 clone reports 1
 # commit, which produces a nonsense version. Unshallow just enough to count.
